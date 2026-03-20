@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Webx — Ricky Jaiswal | Web Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root{--p:#7c3aed;--pl:#a855f7;--pg:#c084fc;--deep:#06000f;--card:#100020;--border:rgba(168,85,247,.2);--text:#e2ccff;--muted:#8060a8;--accent:#f0abfc;--gold:#fbbf24}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#06000f;color:#e2ccff;font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0b0018}::-webkit-scrollbar-thumb{background:#7c3aed;border-radius:9px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(6,0,15,.93);border-bottom:1px solid rgba(168,85,247,.2)}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.05rem;color:#fff;text-decoration:none;letter-spacing:.2em}
+.logo span{color:#c084fc}
+.nav-links{list-style:none;display:flex;gap:32px}
+.nav-links a{color:#8060a8;text-decoration:none;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;transition:color .25s}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-btn{padding:9px 24px;border:1.5px solid #7c3aed;color:#c084fc;border-radius:6px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;font-family:'DM Sans',sans-serif;transition:all .25s}
+.nav-btn:hover{background:#7c3aed;color:#fff}
+/* hamburger */
+#ham{display:none;flex-direction:column;gap:5px;background:none;border:1.5px solid rgba(168,85,247,.4);border-radius:6px;padding:8px 10px;cursor:pointer}
+#ham span{width:20px;height:1.5px;background:#c084fc;display:block;transition:all .3s}
+/* mobile full menu */
+#mob-menu{display:none;position:fixed;inset:0;z-index:900;background:rgba(6,0,15,.98);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+#mob-menu.open{display:flex}
+#mob-close{position:absolute;top:22px;right:22px;background:none;border:none;color:#8060a8;font-size:2rem;cursor:pointer;line-height:1}
+#mob-menu a{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:#fff;text-decoration:none;letter-spacing:.1em;transition:color .2s}
+#mob-menu a:hover{color:#c084fc}
+/* device badge */
+#dbadge{position:fixed;top:74px;right:16px;z-index:800;padding:5px 12px;border-radius:99px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-family:'Orbitron',sans-serif;opacity:0;transition:opacity .5s;pointer-events:none;border:1px solid rgba(168,85,247,.4);background:rgba(124,58,237,.2);color:#c084fc}
+#dbadge.show{opacity:1}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.22),transparent 70%);top:-200px;right:-100px;border-radius:50%;pointer-events:none;animation:bp 6s ease-in-out infinite}
+.hero::after{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,.12),transparent 70%);bottom:-100px;left:100px;border-radius:50%;pointer-events:none;animation:bp 8s 2s ease-in-out infinite}
+@keyframes bp{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+.hero-inner{position:relative;z-index:2;max-width:660px}
+/* 3D hero shapes */
+.hshapes{position:absolute;inset:0;pointer-events:none;z-index:1}
+.cube{position:absolute;right:8%;top:50%;width:150px;height:150px;transform-style:preserve-3d;animation:hcSpin 10s linear infinite,hcFloat 5s ease-in-out infinite}
+@keyframes hcSpin{from{transform:translateY(-50%) rotateX(20deg) rotateY(0)}to{transform:translateY(-50%) rotateX(20deg) rotateY(360deg)}}
+@keyframes hcFloat{0%,100%{margin-top:0}50%{margin-top:-20px}}
+.cf{position:absolute;width:150px;height:150px;border:1.5px solid rgba(192,132,252,.5);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;color:rgba(192,132,252,.9)}
+.cf1{background:rgba(124,58,237,.22);transform:translateZ(75px)}
+.cf2{background:rgba(124,58,237,.14);transform:rotateY(180deg) translateZ(75px)}
+.cf3{background:rgba(168,85,247,.15);transform:rotateY(90deg) translateZ(75px)}
+.cf4{background:rgba(168,85,247,.15);transform:rotateY(-90deg) translateZ(75px)}
+.cf5{background:rgba(192,132,252,.09);transform:rotateX(90deg) translateZ(75px)}
+.cf6{background:rgba(192,132,252,.07);transform:rotateX(-90deg) translateZ(75px)}
+.hrings{position:absolute;right:8%;top:50%;transform-style:preserve-3d}
+.rng{position:absolute;border-radius:50%;border:1.5px solid transparent}
+.rng1{width:270px;height:270px;margin:-135px 0 0 -135px;border-top-color:rgba(124,58,237,.8);animation:rs1 4s linear infinite}
+.rng2{width:380px;height:380px;margin:-190px 0 0 -190px;border-right-color:rgba(192,132,252,.5);border-width:1px;animation:rs2 7s linear infinite}
+.rng3{width:490px;height:490px;margin:-245px 0 0 -245px;border-bottom-color:rgba(240,171,252,.3);border-width:1px;animation:rs3 11s linear infinite}
+@keyframes rs1{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+@keyframes rs2{from{transform:rotateX(50deg) rotateZ(0)}to{transform:rotateX(50deg) rotateZ(-360deg)}}
+@keyframes rs3{from{transform:rotateX(35deg) rotateZ(0)}to{transform:rotateX(35deg) rotateZ(360deg)}}
+.gem{position:absolute;clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);background:rgba(192,132,252,.65)}
+.gm1{width:20px;height:20px;top:15%;right:34%;animation:gf1 5s ease-in-out infinite}
+.gm2{width:13px;height:13px;top:24%;right:7%;animation:gf2 6s 1s ease-in-out infinite}
+.gm3{width:17px;height:17px;bottom:26%;right:37%;animation:gf3 4.5s 2s ease-in-out infinite}
+.gm4{width:11px;height:11px;bottom:17%;right:9%;animation:gf1 7s .5s ease-in-out infinite}
+.gm5{width:15px;height:15px;top:54%;right:41%;animation:gf2 5.5s 1.5s ease-in-out infinite}
+@keyframes gf1{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(180deg)}}
+@keyframes gf2{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-28px) rotate(-180deg)}}
+@keyframes gf3{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(90deg)}}
+
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.4);border-radius:99px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#c084fc;margin-bottom:28px}
+.bdot{width:7px;height:7px;background:#c084fc;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}}
+.hname{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:#8060a8;margin-bottom:14px}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,9vw,9.5rem);line-height:.88;color:#fff;margin-bottom:12px}
+h1 .g{background:linear-gradient(130deg,#c084fc,#f0abfc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.htag{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2vw,1.5rem);letter-spacing:.15em;color:rgba(192,132,252,.65);margin-bottom:22px}
+.hsub{font-size:.98rem;line-height:1.82;color:#8060a8;max-width:460px;margin-bottom:36px}
+.btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
+.btn{padding:14px 36px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.86rem;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:all .25s;border:none}
+.btn-p{background:#7c3aed;color:#fff;box-shadow:0 0 28px rgba(124,58,237,.4)}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 0 52px rgba(124,58,237,.7)}
+.btn-g{background:transparent;color:#e2ccff;border:1.5px solid rgba(168,85,247,.25)}
+.btn-g:hover{border-color:#c084fc;color:#fff}
+.hinfo{display:flex;flex-wrap:wrap;gap:18px}
+.hi{display:flex;align-items:center;gap:7px;font-size:.74rem;color:#8060a8}
+.hidot{width:5px;height:5px;border-radius:50%;background:#c084fc;flex-shrink:0}
+
+/* STATS */
+.stats{display:flex;border-top:1px solid rgba(168,85,247,.2);border-bottom:1px solid rgba(168,85,247,.2);background:rgba(124,58,237,.04);position:relative;z-index:1}
+.stat{flex:1;padding:40px 36px;border-right:1px solid rgba(168,85,247,.2);transition:background .3s}
+.stat:last-child{border-right:none}.stat:hover{background:rgba(124,58,237,.08)}
+.stat-n{font-family:'Orbitron',sans-serif;font-size:2.6rem;font-weight:900;background:linear-gradient(130deg,#fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.stat-l{margin-top:8px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#8060a8}
+
+/* SHARED */
+section{position:relative;z-index:1}
+.sl{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#c084fc;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sl::before{content:'';width:24px;height:1px;background:#c084fc}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);line-height:1;color:#fff;margin-bottom:20px}
+
+/* ABOUT */
+.about{padding:120px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-left{position:relative;height:500px}
+.icard{position:absolute;border-radius:18px;padding:28px}
+.ic1{left:0;top:20px;width:295px;background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(16,0,32,.97));border:1px solid rgba(168,85,247,.4);box-shadow:0 24px 60px rgba(124,58,237,.22);animation:fl 7s ease-in-out infinite}
+.ic2{right:0;bottom:60px;width:172px;background:rgba(16,0,32,.97);border:1px solid rgba(168,85,247,.2);animation:fl 6s 1.5s ease-in-out infinite}
+.ic3{right:22px;top:22px;width:142px;background:rgba(16,0,32,.97);border:1px solid rgba(168,85,247,.2);animation:fl 5.5s 3s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.sil{width:68px;height:68px;border-radius:50%;background:linear-gradient(180deg,#2a2a3e,#1a1a2e);border:2px solid rgba(168,85,247,.45);margin-bottom:14px;position:relative;overflow:hidden}
+.sil::before{content:'';position:absolute;width:28px;height:28px;background:#ccc;border-radius:50%;top:11px;left:50%;transform:translateX(-50%)}
+.sil::after{content:'';position:absolute;width:48px;height:38px;background:#ccc;border-radius:50% 50% 0 0;bottom:-4px;left:50%;transform:translateX(-50%)}
+.icn{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:#fff;letter-spacing:.05em}
+.icr{font-size:.67rem;color:#c084fc;letter-spacing:.1em;margin-top:3px;margin-bottom:16px}
+.skb{margin-top:10px}.skr{display:flex;justify-content:space-between;font-size:.7rem;color:#8060a8;margin-bottom:5px}
+.skt{height:3px;background:rgba(255,255,255,.07);border-radius:9px;overflow:hidden}
+.skf{height:100%;background:linear-gradient(90deg,#7c3aed,#c084fc);border-radius:9px}
+.tl{display:flex;align-items:center;gap:8px;font-size:.75rem;color:#8060a8;margin-bottom:9px}
+.tdot{width:5px;height:5px;border-radius:50%;background:#c084fc;flex-shrink:0}
+.bn{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;background:linear-gradient(130deg,#fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.bl{font-size:.64rem;color:#8060a8;margin-top:4px;letter-spacing:.08em}
+.deco{position:absolute;right:0;bottom:175px;width:44px;height:44px;transform-style:preserve-3d;animation:dc 8s linear infinite}
+@keyframes dc{from{transform:rotateX(20deg) rotateY(0)}to{transform:rotateX(20deg) rotateY(360deg)}}
+.df{position:absolute;width:44px;height:44px;border:1px solid rgba(192,132,252,.35);background:rgba(124,58,237,.1)}
+.df1{transform:translateZ(22px)}.df2{transform:rotateY(180deg) translateZ(22px)}.df3{transform:rotateY(90deg) translateZ(22px)}.df4{transform:rotateY(-90deg) translateZ(22px)}.df5{transform:rotateX(90deg) translateZ(22px)}.df6{transform:rotateX(-90deg) translateZ(22px)}
+.ap{color:#8060a8;line-height:1.85;margin-bottom:18px;font-size:.96rem}.ap strong{color:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{padding:6px 14px;border:1px solid rgba(168,85,247,.2);border-radius:99px;font-size:.7rem;color:#8060a8;transition:all .22s;cursor:default}
+.tag:hover{border-color:#c084fc;color:#c084fc}
+
+/* SERVICES */
+.services{padding:120px 60px}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.sc{background:#100020;border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:38px 30px;position:relative;overflow:hidden;transition:transform .35s,border-color .3s,box-shadow .3s}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#a855f7,transparent);opacity:0;transition:opacity .3s}
+.sc:hover{transform:translateY(-10px);border-color:rgba(168,85,247,.5);box-shadow:0 28px 70px rgba(124,58,237,.28)}
+.sc:hover::after{opacity:1}
+.scube{width:54px;height:54px;transform-style:preserve-3d;animation:is 6s linear infinite;position:relative;margin-bottom:24px}
+@keyframes is{from{transform:rotateY(0) rotateX(12deg)}to{transform:rotateY(360deg) rotateX(12deg)}}
+.sf{position:absolute;border:1px solid rgba(168,85,247,.5);background:rgba(124,58,237,.18)}
+.sf1{width:34px;height:34px;top:10px;left:10px;transform:translateZ(17px)}.sf2{width:34px;height:34px;top:10px;left:10px;transform:rotateY(180deg) translateZ(17px)}
+.sf3{width:34px;height:34px;top:10px;left:10px;transform:rotateY(90deg) translateZ(17px)}.sf4{width:34px;height:34px;top:10px;left:10px;transform:rotateY(-90deg) translateZ(17px)}
+.sf5{width:34px;height:34px;top:10px;left:10px;transform:rotateX(90deg) translateZ(17px)}.sf6{width:34px;height:34px;top:10px;left:10px;transform:rotateX(-90deg) translateZ(17px)}
+.sc h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;margin-bottom:12px;letter-spacing:.04em}
+.sc p{font-size:.84rem;color:#8060a8;line-height:1.75}
+.snum{position:absolute;bottom:20px;right:24px;font-family:'Orbitron',sans-serif;font-size:.6rem;color:rgba(168,85,247,.22);letter-spacing:.1em}
+.sc-feat{grid-column:1/3;padding:44px;display:flex;gap:44px;align-items:center;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(16,0,32,.98));border-color:rgba(168,85,247,.32)}
+.sc-feat h3{font-size:2rem}.sc-feat p{font-size:.92rem}
+.stags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.stag{padding:4px 11px;border:1px solid rgba(168,85,247,.22);border-radius:99px;font-size:.68rem;color:rgba(168,85,247,.85);background:rgba(124,58,237,.07)}
+
+/* WORK */
+.work{padding:120px 60px}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:56px}
+.proj{border-radius:20px;overflow:hidden;border:1px solid rgba(168,85,247,.2);background:#100020;cursor:pointer;transition:transform .35s,box-shadow .35s}
+.proj:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 30px 80px rgba(124,58,237,.3)}
+.proj:first-child{grid-column:span 2}
+.pthumb{height:280px;position:relative;overflow:hidden}
+.proj:first-child .pthumb{height:360px}
+.pbg{position:absolute;inset:0;background-size:200% 200%;animation:ga 6s ease infinite}
+.pb0{background:linear-gradient(135deg,#0d0020,#1a0040,#0d0020)}.pb1{background:linear-gradient(135deg,#001428,#002855,#001428)}.pb2{background:linear-gradient(135deg,#100800,#2a1500,#100800)}.pb3{background:linear-gradient(135deg,#001810,#003020,#001810)}
+@keyframes ga{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.pshapes{position:absolute;inset:0;overflow:hidden}
+.ps{position:absolute;border-radius:2px;opacity:.2;animation:pf 8s ease-in-out infinite}
+.ps1{width:80px;height:80px;border:2px solid #c084fc;top:20%;left:15%;transform:rotate(45deg)}
+.ps2{width:50px;height:50px;border:1.5px solid #c084fc;top:50%;right:20%;transform:rotate(30deg);animation-delay:1s}
+.ps3{width:110px;height:110px;border:1px solid #c084fc;bottom:12%;left:42%;transform:rotate(60deg);animation-delay:2s}
+.ps4{width:40px;height:40px;background:#c084fc;top:16%;right:36%;transform:rotate(45deg);animation-delay:.5s;opacity:.1}
+.ps5{width:60px;height:60px;border:1.5px solid #c084fc;bottom:25%;right:11%;transform:rotate(20deg);animation-delay:1.5s}
+@keyframes pf{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(-15px)}}
+.pov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(6,0,15,.97) 100%)}
+.plabel{position:absolute;bottom:0;left:0;right:0;padding:20px 26px}
+.pbadge{display:inline-block;padding:3px 10px;background:rgba(124,58,237,.55);border:1px solid rgba(168,85,247,.4);border-radius:99px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#c084fc;margin-bottom:7px}
+.ptitle{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;letter-spacing:.04em;line-height:1.1}
+.pbody{padding:22px 26px 26px}
+.pdesc{font-size:.83rem;color:#8060a8;line-height:1.72;margin-bottom:14px}
+.plink{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:#c084fc;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:gap .2s}
+.plink:hover{gap:13px}
+
+/* PROCESS */
+.process{padding:120px 60px;background:linear-gradient(180deg,transparent,rgba(124,58,237,.04),transparent)}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px}
+.pstep{padding:32px 26px;border-right:1px solid rgba(168,85,247,.2);position:relative;transition:background .3s}
+.pstep:last-child{border-right:none}.pstep:hover{background:rgba(124,58,237,.05)}
+.pstep::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7c3aed,#c084fc);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.pstep:hover::before{transform:scaleX(1)}
+.pcube{width:56px;height:56px;transform-style:preserve-3d;animation:is 6s linear infinite;position:relative;margin-bottom:20px}
+.pf{position:absolute;border:1px solid rgba(168,85,247,.45);background:rgba(124,58,237,.15)}
+.pf1{width:28px;height:28px;top:14px;left:14px;transform:translateZ(14px)}.pf2{width:28px;height:28px;top:14px;left:14px;transform:rotateY(180deg) translateZ(14px)}
+.pf3{width:28px;height:28px;top:14px;left:14px;transform:rotateY(90deg) translateZ(14px)}.pf4{width:28px;height:28px;top:14px;left:14px;transform:rotateY(-90deg) translateZ(14px)}
+.pf5{width:28px;height:28px;top:14px;left:14px;transform:rotateX(90deg) translateZ(14px)}.pf6{width:28px;height:28px;top:14px;left:14px;transform:rotateX(-90deg) translateZ(14px)}
+.pnum{font-family:'Orbitron',sans-serif;font-size:.6rem;color:#7c3aed;letter-spacing:.16em;margin-bottom:12px}
+.pstep h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;margin-bottom:9px}
+.pstep p{font-size:.78rem;color:#8060a8;line-height:1.72}
+
+/* TESTIMONIALS */
+.testi{padding:120px 60px}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.tc{background:#100020;border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:34px;transition:border-color .3s,transform .3s,box-shadow .3s}
+.tc:hover{border-color:rgba(168,85,247,.45);transform:translateY(-5px);box-shadow:0 18px 55px rgba(124,58,237,.2)}
+.stars{display:flex;gap:4px;margin-bottom:16px}
+.star{width:20px;height:20px;position:relative;transform-style:preserve-3d;animation:sb 3s ease-in-out infinite}
+.star:nth-child(2){animation-delay:.08s}.star:nth-child(3){animation-delay:.16s}.star:nth-child(4){animation-delay:.24s}.star:nth-child(5){animation-delay:.32s}
+@keyframes sb{0%,100%{transform:translateY(0) rotateY(0)}50%{transform:translateY(-3px) rotateY(20deg)}}
+.star::before{content:'★';position:absolute;font-size:17px;color:#fbbf24;text-shadow:0 0 10px rgba(251,191,36,.5);transform:translateZ(3px)}
+.star::after{content:'★';position:absolute;font-size:17px;color:rgba(251,191,36,.2);transform:translateZ(-3px) scaleX(-1)}
+.tc blockquote{font-size:.86rem;color:#e2ccff;line-height:1.8;font-style:italic}
+.tperson{display:flex;align-items:center;gap:12px;margin-top:20px}
+.tav{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#f0abfc);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+.tnm{font-size:.83rem;font-weight:500;color:#fff}.trl{font-size:.69rem;color:#8060a8}
+.tvb{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.32);border-radius:99px;font-size:.6rem;color:#c084fc;margin-top:5px}
+
+/* CONTACT */
+.contact{padding:130px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;overflow:hidden}
+.contact::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);bottom:-200px;left:-80px;border-radius:50%;pointer-events:none}
+.cp{color:#8060a8;line-height:1.82;margin-bottom:34px;font-size:.96rem}
+.citems{display:flex;flex-direction:column;gap:13px}
+.ci{display:flex;align-items:center;gap:14px;padding:15px 20px;background:#100020;border:1px solid rgba(168,85,247,.2);border-radius:12px;transition:all .25s}
+.ci:hover{border-color:#7c3aed;box-shadow:0 0 20px rgba(124,58,237,.15)}
+.ccube{width:30px;height:30px;transform-style:preserve-3d;animation:is 4s linear infinite;position:relative;flex-shrink:0}
+.ccf{position:absolute;width:20px;height:20px;top:5px;left:5px;border:1px solid rgba(168,85,247,.48);background:rgba(124,58,237,.2)}
+.ccf1{transform:translateZ(10px)}.ccf2{transform:rotateY(180deg) translateZ(10px)}.ccf3{transform:rotateY(90deg) translateZ(10px)}.ccf4{transform:rotateY(-90deg) translateZ(10px)}
+.cilabel{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#8060a8}
+.cival{font-size:.86rem;color:#fff}
+.form{display:flex;flex-direction:column;gap:15px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:#8060a8}
+.field input,.field textarea,.field select{background:#100020;border:1.5px solid rgba(168,85,247,.2);color:#e2ccff;border-radius:9px;padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;transition:border-color .25s,box-shadow .25s;resize:none;-webkit-appearance:none;appearance:none;width:100%}
+.field select option{background:#0b0018;color:#e2ccff}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.13)}
+.field textarea{min-height:115px}
+#sbtn{width:100%;padding:15px;background:#7c3aed;color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;box-shadow:0 0 28px rgba(124,58,237,.35)}
+#sbtn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(124,58,237,.65)}
+#sbtn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* TOAST */
+#toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 24px;border-radius:12px;font-size:.86rem;pointer-events:none;opacity:0;transform:translateY(14px);transition:all .4s;max-width:320px}
+#toast.show{opacity:1;transform:translateY(0)}
+#toast.ok{background:rgba(5,150,105,.22);border:1px solid rgba(52,211,153,.4);color:#6ee7b7}
+#toast.err{background:rgba(220,38,38,.18);border:1px solid rgba(248,113,113,.38);color:#fca5a5}
+
+/* FOOTER */
+footer{padding:34px 60px;border-top:1px solid rgba(168,85,247,.2);display:flex;align-items:center;justify-content:space-between;background:rgba(6,0,15,.95);position:relative;z-index:1}
+.flogo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;color:#c084fc;letter-spacing:.18em}
+footer p{font-size:.72rem;color:#8060a8;margin-top:4px}
+.flinks{display:flex;gap:20px}
+.flinks a{font-size:.72rem;color:#8060a8;text-decoration:none;transition:color .22s}
+.flinks a:hover{color:#c084fc}
+
+/* SCROLL FADE */
+.fu{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.fu.in{opacity:1;transform:none}
+
+/* ======= RESPONSIVE =======
+   Auto-detected by JS + CSS media queries
+   Classes added to body: is-mobile / is-tablet / is-desktop
+========================================*/
+
+/* TABLET 768–1200px */
+@media(max-width:1200px){
+  nav{padding:16px 36px}
+  .hero{padding:110px 36px 70px}
+  .about,.contact{padding:100px 36px;gap:50px}
+  .services,.work,.process,.testi{padding:100px 36px}
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .sc-feat{grid-column:span 2}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* MOBILE ≤768px */
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  #ham{display:flex}
+  .hero{padding:90px 20px 60px;min-height:auto}
+  .cube,.hrings,.gem{display:none}
+  h1{font-size:clamp(3.2rem,13vw,5.5rem)}
+  .hsub{font-size:.92rem}
+  .btns{flex-direction:column;gap:10px}
+  .btn{width:100%;text-align:center;padding:14px}
+  .hinfo{flex-direction:column;gap:10px}
+  .stats{display:grid;grid-template-columns:1fr 1fr}
+  .stat{border-right:1px solid rgba(168,85,247,.2)!important;border-bottom:1px solid rgba(168,85,247,.2);padding:24px 16px}
+  .stat:nth-child(2n){border-right:none!important}
+  .stat-n{font-size:2rem}
+  .about{grid-template-columns:1fr;padding:70px 20px;gap:340px}
+  .about-left{height:330px}
+  .ic1{width:250px;padding:20px}
+  .ic2{width:150px}.ic3{width:130px}
+  .services,.work,.process,.testi{padding:70px 20px}
+  .sgrid{grid-template-columns:1fr;gap:14px}
+  .sc-feat{grid-column:1;flex-direction:column;gap:18px;padding:26px}
+  .sc-feat h3{font-size:1.6rem}
+  .sc{padding:28px 22px}
+  .wgrid{grid-template-columns:1fr;gap:16px}
+  .proj:first-child{grid-column:span 1}
+  .pthumb,.proj:first-child .pthumb{height:220px}
+  .contact{grid-template-columns:1fr;padding:70px 20px;gap:40px}
+  .frow{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr 1fr}
+  .pstep{padding:22px 16px}
+  .tgrid{grid-template-columns:1fr;gap:14px}
+  .tc{padding:26px}
+  footer{flex-direction:column;gap:14px;padding:24px 20px;text-align:center}
+  .flinks{flex-wrap:wrap;justify-content:center;gap:14px}
+  h2{font-size:clamp(2.4rem,10vw,3.5rem)}
+}
+
+/* SMALL PHONE ≤380px */
+@media(max-width:380px){
+  h1{font-size:3rem}
+  .badge{font-size:.62rem;padding:5px 12px}
+  .stat-n{font-size:1.7rem}
+  .pgrid{grid-template-columns:1fr}
+  .about{gap:300px}
+}
+
+/* LARGE DESKTOP ≥1440px */
+@media(min-width:1440px){
+  nav{padding:20px 80px}
+  .hero,.about,.contact,.services,.work,.process,.testi{padding-left:80px;padding-right:80px}
+}
+
+/* TOUCH — disable hover effects */
+@media(hover:none){
+  .sc:hover,.proj:hover,.tc:hover{transform:none;box-shadow:none}
+  .btn-p:hover{transform:none}
+}
+
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.3s!important}
+  .fu{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- DEVICE BADGE -->
+<div id="dbadge"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#"><span>WEB</span>X</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire Me</button>
+    <button id="ham" onclick="document.getElementById('mob-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu">
+  <button id="mob-close" onclick="document.getElementById('mob-menu').classList.remove('open')">✕</button>
+  <a href="#about" onclick="document.getElementById('mob-menu').classList.remove('open')">About</a>
+  <a href="#services" onclick="document.getElementById('mob-menu').classList.remove('open')">Services</a>
+  <a href="#work" onclick="document.getElementById('mob-menu').classList.remove('open')">Work</a>
+  <a href="#contact" onclick="document.getElementById('mob-menu').classList.remove('open')">Contact</a>
+  <button class="btn btn-p" style="font-size:1rem;padding:16px 40px;border:none;cursor:pointer" onclick="document.getElementById('mob-menu').classList.remove('open');document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire Me</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hshapes">
+    <div class="hrings"><div class="rng rng1"></div><div class="rng rng2"></div><div class="rng rng3"></div></div>
+    <div class="cube"><div class="cf cf1">RJ</div><div class="cf cf2">WX</div><div class="cf cf3">UI</div><div class="cf cf4">3D</div><div class="cf cf5"></div><div class="cf cf6"></div></div>
+    <div class="gem gm1"></div><div class="gem gm2"></div><div class="gem gm3"></div><div class="gem gm4"></div><div class="gem gm5"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="badge"><div class="bdot"></div>Available for Projects</div>
+    <div class="hname">Ricky Jaiswal &nbsp;·&nbsp; Delhi, India</div>
+    <h1>IMAGINE<br>THE <span class="g">UN</span><br>IMAGINABLE</h1>
+    <div class="htag">— Founder of Webx</div>
+    <p class="hsub">Website designer blending bold aesthetics, immersive motion, and pixel-perfect execution — creating digital experiences that leave people speechless.</p>
+    <div class="btns">
+      <button class="btn btn-p" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">View Work</button>
+      <button class="btn btn-g" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+    </div>
+    <div class="hinfo">
+      <div class="hi"><div class="hidot"></div>rj7076751589@gmail.com</div>
+      <div class="hi"><div class="hidot"></div>+91 73035 34086</div>
+      <div class="hi"><div class="hidot"></div>Delhi · Remote Worldwide</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="s1">0</div><div class="stat-l">Projects Delivered</div></div>
+  <div class="stat"><div class="stat-n" id="s2">0</div><div class="stat-l">Happy Clients</div></div>
+  <div class="stat"><div class="stat-n" id="s3">0</div><div class="stat-l">Years Experience</div></div>
+  <div class="stat"><div class="stat-n" id="s4">0</div><div class="stat-l">Services Offered</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left fu">
+    <div class="icard ic1">
+      <div class="sil"></div>
+      <div class="icn">Ricky Jaiswal</div>
+      <div class="icr">✦ Founder, Webx · Web Designer</div>
+      <div class="skb"><div class="skr"><span>UI Design</span><span>97%</span></div><div class="skt"><div class="skf" style="width:97%"></div></div></div>
+      <div class="skb" style="margin-top:9px"><div class="skr"><span>Web Design</span><span>95%</span></div><div class="skt"><div class="skf" style="width:95%"></div></div></div>
+      <div class="skb" style="margin-top:9px"><div class="skr"><span>Motion</span><span>88%</span></div><div class="skt"><div class="skf" style="width:88%"></div></div></div>
+      <div class="skb" style="margin-top:9px"><div class="skr"><span>Branding</span><span>85%</span></div><div class="skt"><div class="skf" style="width:85%"></div></div></div>
+    </div>
+    <div class="icard ic2">
+      <div style="font-size:.64rem;color:#8060a8;letter-spacing:.12em;text-transform:uppercase;margin-bottom:13px">Tools</div>
+      <div class="tl"><div class="tdot"></div>Figma</div>
+      <div class="tl"><div class="tdot"></div>Webflow</div>
+      <div class="tl"><div class="tdot"></div>After Effects</div>
+      <div class="tl"><div class="tdot"></div>Framer</div>
+      <div class="tl"><div class="tdot"></div>Adobe XD</div>
+    </div>
+    <div class="icard ic3">
+      <div class="bn">4+</div><div class="bl">Years Exp.</div>
+      <div style="margin-top:13px"><div class="bn" style="font-size:1.9rem">26+</div><div class="bl">Projects</div></div>
+      <div style="margin-top:11px;font-size:.65rem;color:rgba(168,85,247,.55)">📍 Delhi, India</div>
+    </div>
+    <div class="deco"><div class="df df1"></div><div class="df df2"></div><div class="df df3"></div><div class="df df4"></div><div class="df df5"></div><div class="df df6"></div></div>
+  </div>
+  <div class="fu">
+    <div class="sl">Who I Am</div>
+    <h2>DESIGNER<br>BY OBSESSION</h2>
+    <p class="ap">I'm <strong>Ricky Jaiswal</strong>, founder of <strong>Webx</strong> — a one-person creative force based in Delhi. I design websites people genuinely can't stop looking at.</p>
+    <p class="ap">With <strong>4+ years</strong> of experience and <strong>26+ projects</strong> delivered, my philosophy is simple: <strong>Imagine The Unimaginable</strong>.</p>
+    <p class="ap">I don't just design — I craft stories, emotions, and experiences through every pixel and motion.</p>
+    <div class="tags">
+      <span class="tag">UI/UX Design</span><span class="tag">Web Design</span><span class="tag">Branding</span>
+      <span class="tag">Motion Design</span><span class="tag">Mobile Design</span><span class="tag">Figma</span>
+      <span class="tag">Webflow</span><span class="tag">After Effects</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="fu"><div class="sl">What I Do</div><h2>SERVICES</h2></div>
+  <div class="sgrid">
+    <div class="sc sc-feat fu">
+      <div class="scube" style="width:66px;height:66px;flex-shrink:0">
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:translateZ(21px)"></div>
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:rotateY(180deg) translateZ(21px)"></div>
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:rotateY(90deg) translateZ(21px)"></div>
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:rotateY(-90deg) translateZ(21px)"></div>
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:rotateX(90deg) translateZ(21px)"></div>
+        <div class="sf" style="width:42px;height:42px;top:12px;left:12px;transform:rotateX(-90deg) translateZ(21px)"></div>
+      </div>
+      <div><div class="snum">01</div><h3>UI / UX Design</h3><p>Research-backed, visually stunning interfaces. Every screen crafted with obsession and intent.</p><div class="stags"><span class="stag">Figma</span><span class="stag">Wireframing</span><span class="stag">Prototyping</span><span class="stag">Design Systems</span></div></div>
+    </div>
+    <div class="sc fu"><div class="scube"><div class="sf sf1"></div><div class="sf sf2"></div><div class="sf sf3"></div><div class="sf sf4"></div><div class="sf sf5"></div><div class="sf sf6"></div></div><div class="snum">02</div><h3>Web Design</h3><p>Pixel-perfect responsive websites that load fast and look incredible on every device.</p></div>
+    <div class="sc fu"><div class="scube"><div class="sf sf1"></div><div class="sf sf2"></div><div class="sf sf3"></div><div class="sf sf4"></div><div class="sf sf5"></div><div class="sf sf6"></div></div><div class="snum">03</div><h3>Motion & Animation</h3><p>Cinematic micro-interactions and scroll animations that breathe life into every design.</p></div>
+    <div class="sc fu"><div class="scube"><div class="sf sf1"></div><div class="sf sf2"></div><div class="sf sf3"></div><div class="sf sf4"></div><div class="sf sf5"></div><div class="sf sf6"></div></div><div class="snum">04</div><h3>Mobile Design</h3><p>Touch-optimized mobile experiences that feel native and fluid on every screen.</p></div>
+    <div class="sc fu"><div class="scube"><div class="sf sf1"></div><div class="sf sf2"></div><div class="sf sf3"></div><div class="sf sf4"></div><div class="sf sf5"></div><div class="sf sf6"></div></div><div class="snum">05</div><h3>Branding</h3><p>Complete brand systems — logo, color, typography, and voice — cohesive and unmistakable.</p></div>
+    <div class="sc fu" style="background:linear-gradient(135deg,rgba(124,58,237,.2),#100020);border-color:rgba(168,85,247,.35)">
+      <div class="scube"><div class="sf sf1"></div><div class="sf sf2"></div><div class="sf sf3"></div><div class="sf sf4"></div><div class="sf sf5"></div><div class="sf sf6"></div></div>
+      <div class="snum">06</div><h3>Got a Project?</h3><p>Ready to build something unforgettable? Let's bring your vision to life.</p>
+      <button class="btn btn-p" style="margin-top:20px;padding:11px 22px;font-size:.78rem;border:none;cursor:pointer" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a Project</button>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="fu"><div class="sl">Selected Work</div><h2>PROJECTS</h2></div>
+  <div class="wgrid">
+    <div class="proj fu">
+      <div class="pthumb"><div class="pbg pb0"></div><div class="pshapes"><div class="ps ps1"></div><div class="ps ps2"></div><div class="ps ps3"></div><div class="ps ps4"></div><div class="ps ps5"></div></div><div class="pov"></div><div class="plabel"><div class="pbadge">E-Commerce · Real Client</div><div class="ptitle">TheDelhiMart — Online Store</div></div></div>
+      <div class="pbody"><p class="pdesc">A full e-commerce website for a Delhi-based market. Clean layouts, smooth checkout, bold identity. First client — loved it.</p><a href="#" class="plink">View Case Study →</a></div>
+    </div>
+    <div class="proj fu">
+      <div class="pthumb"><div class="pbg pb1"></div><div class="pshapes"><div class="ps ps1"></div><div class="ps ps2"></div><div class="ps ps3"></div><div class="ps ps4"></div><div class="ps ps5"></div></div><div class="pov"></div><div class="plabel"><div class="pbadge">SaaS / Dashboard</div><div class="ptitle">PulseBoard Analytics</div></div></div>
+      <div class="pbody"><p class="pdesc">Dark, data-rich dashboard with glowing metrics, real-time graphs, and effortless UI.</p><a href="#" class="plink">View Case Study →</a></div>
+    </div>
+    <div class="proj fu">
+      <div class="pthumb"><div class="pbg pb2"></div><div class="pshapes"><div class="ps ps1"></div><div class="ps ps2"></div><div class="ps ps3"></div><div class="ps ps4"></div><div class="ps ps5"></div></div><div class="pov"></div><div class="plabel"><div class="pbadge">Brand Identity</div><div class="ptitle">Noire — Luxury Fashion</div></div></div>
+      <div class="pbody"><p class="pdesc">Complete brand identity and landing page for a premium fashion label. Black, gold, immaculate.</p><a href="#" class="plink">View Case Study →</a></div>
+    </div>
+    <div class="proj fu">
+      <div class="pthumb"><div class="pbg pb3"></div><div class="pshapes"><div class="ps ps1"></div><div class="ps ps2"></div><div class="ps ps3"></div><div class="ps ps4"></div><div class="ps ps5"></div></div><div class="pov"></div><div class="plabel"><div class="pbadge">Mobile App UI</div><div class="ptitle">Zenith Fitness App</div></div></div>
+      <div class="pbody"><p class="pdesc">Bold, energetic mobile app design. Vibrant gradients, smooth micro-interactions, killer onboarding.</p><a href="#" class="plink">View Case Study →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="fu"><div class="sl">How I Work</div><h2>PROCESS</h2></div>
+  <div class="pgrid">
+    <div class="pstep fu"><div class="pcube"><div class="pf pf1"></div><div class="pf pf2"></div><div class="pf pf3"></div><div class="pf pf4"></div><div class="pf pf5"></div><div class="pf pf6"></div></div><div class="pnum">// 01</div><h3>Discover</h3><p>Deep-dive into your goals, audience, and vision before a single pixel is placed.</p></div>
+    <div class="pstep fu"><div class="pcube"><div class="pf pf1"></div><div class="pf pf2"></div><div class="pf pf3"></div><div class="pf pf4"></div><div class="pf pf5"></div><div class="pf pf6"></div></div><div class="pnum">// 02</div><h3>Concept</h3><p>Moodboards, wireframes, and prototypes to lock in the visual language.</p></div>
+    <div class="pstep fu"><div class="pcube"><div class="pf pf1"></div><div class="pf pf2"></div><div class="pf pf3"></div><div class="pf pf4"></div><div class="pf pf5"></div><div class="pf pf6"></div></div><div class="pnum">// 03</div><h3>Design</h3><p>High-fidelity Figma designs — every component and state obsessed over.</p></div>
+    <div class="pstep fu"><div class="pcube"><div class="pf pf1"></div><div class="pf pf2"></div><div class="pf pf3"></div><div class="pf pf4"></div><div class="pf pf5"></div><div class="pf pf6"></div></div><div class="pnum">// 04</div><h3>Deliver</h3><p>Clean files, dev-ready specs, or full build — with post-launch support included.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi">
+  <div class="fu"><div class="sl">Client Love</div><h2>TESTIMONIALS</h2></div>
+  <div class="tgrid">
+    <div class="tc fu">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <blockquote>"Thank you — great website! Exactly what we needed. The design exceeded all our expectations."</blockquote>
+      <div class="tperson"><div class="tav">DM</div><div><div class="tnm">TheDelhiMart</div><div class="trl">E-Commerce Client, Delhi</div><div class="tvb">✦ Verified Real Client</div></div></div>
+    </div>
+    <div class="tc fu">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <blockquote>"Ricky brings your vision to life in ways you never imagined. Attention to detail is truly unmatched."</blockquote>
+      <div class="tperson"><div class="tav">AR</div><div><div class="tnm">Arjun R.</div><div class="trl">Startup Founder, Delhi</div></div></div>
+    </div>
+    <div class="tc fu">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <blockquote>"Working with Webx was a game-changer. Fast, communicative, and the final product was beyond what we hoped for."</blockquote>
+      <div class="tperson"><div class="tav">PK</div><div><div class="tnm">Priya K.</div><div class="trl">Brand Director</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="fu">
+    <div class="sl">Get In Touch</div>
+    <h2>LET'S BUILD<br>SOMETHING<br>GREAT</h2>
+    <p class="cp">Have a project in mind? I typically respond within a few hours.</p>
+    <div class="citems">
+      <div class="ci"><div class="ccube"><div class="ccf ccf1"></div><div class="ccf ccf2"></div><div class="ccf ccf3"></div><div class="ccf ccf4"></div></div><div><div class="cilabel">Email</div><div class="cival">rj7076751589@gmail.com</div></div></div>
+      <div class="ci"><div class="ccube"><div class="ccf ccf1"></div><div class="ccf ccf2"></div><div class="ccf ccf3"></div><div class="ccf ccf4"></div></div><div><div class="cilabel">WhatsApp</div><div class="cival">+91 73035 34086</div></div></div>
+      <div class="ci"><div class="ccube"><div class="ccf ccf1"></div><div class="ccf ccf2"></div><div class="ccf ccf3"></div><div class="ccf ccf4"></div></div><div><div class="cilabel">Location</div><div class="cival">Delhi, India · Remote Worldwide</div></div></div>
+      <div class="ci"><div class="ccube"><div class="ccf ccf1"></div><div class="ccf ccf2"></div><div class="ccf ccf3"></div><div class="ccf ccf4"></div></div><div><div class="cilabel">Availability</div><div class="cival">Open to new projects ✦</div></div></div>
+    </div>
+  </div>
+  <div class="form fu">
+    <div class="frow">
+      <div class="field"><label>Name</label><input id="fn" type="text" placeholder="Your name"/></div>
+      <div class="field"><label>Email</label><input id="fe" type="email" placeholder="hello@email.com"/></div>
+    </div>
+    <div class="field"><label>Service Needed</label><select id="fs"><option value="">Select a service...</option><option>UI/UX Design</option><option>Web Design</option><option>Mobile Design</option><option>Motion & Animation</option><option>Branding</option><option>Other</option></select></div>
+    <div class="field"><label>Budget</label><select id="fb"><option value="">Select budget...</option><option>Under ₹10k</option><option>₹10k – ₹30k</option><option>₹30k – ₹80k</option><option>₹80k+</option></select></div>
+    <div class="field"><label>Tell Me About Your Project</label><textarea id="fm" placeholder="What are you building?"></textarea></div>
+    <button id="sbtn" onclick="sendMail()">Send Message ✦</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="flogo">WEBX</div>
+    <p>© 2026 Ricky Jaiswal · Imagine The Unimaginable</p>
+  </div>
+  <div class="flinks">
+    <a href="mailto:rj7076751589@gmail.com">Email</a>
+    <a href="https://wa.me/917303534086" target="_blank">WhatsApp</a>
+    <a href="#">Dribbble</a><a href="#">Behance</a><a href="#">Instagram</a>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+emailjs.init('6WHfEiuWPP_XJOISL');
+
+/* DEVICE DETECTION */
+(function(){
+  var badge = document.getElementById('dbadge');
+  function detect(){
+    var w = window.innerWidth;
+    var ua = navigator.userAgent.toLowerCase();
+    var isMobileUA = /android|iphone|ipod|blackberry|iemobile|opera mini/.test(ua);
+    var isTabletUA = /ipad|tablet/.test(ua);
+    var device = 'desktop';
+    if(w <= 768 || isMobileUA) device = 'mobile';
+    else if(w <= 1200 || isTabletUA) device = 'tablet';
+    document.body.className = document.body.className.replace(/is-(mobile|tablet|desktop)/g,'').trim() + ' is-' + device;
+    var icons = {mobile:'📱 Mobile',tablet:'⊞ Tablet',desktop:'🖥 Desktop'};
+    badge.textContent = icons[device];
+    badge.classList.add('show');
+    setTimeout(function(){ badge.classList.remove('show'); }, 3000);
+    return device;
+  }
+  detect();
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(detect, 200);
+  });
+  window.addEventListener('orientationchange', function(){
+    setTimeout(detect, 400);
+  });
+})();
+
+/* SCROLL REVEAL */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold: 0.08});
+document.querySelectorAll('.fu').forEach(function(el){ io.observe(el); });
+
+/* COUNTERS */
+function animCount(id, target, suffix){
+  var el = document.getElementById(id);
+  if(!el) return;
+  var start = null;
+  function run(ts){
+    if(!start) start = ts;
+    var p = Math.min((ts - start) / 1800, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(ease * target) + (p >= 1 ? suffix : '');
+    if(p < 1) requestAnimationFrame(run);
+  }
+  requestAnimationFrame(run);
+}
+var statsIO = new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting){
+    animCount('s1',26,'+'); animCount('s2',25,'+');
+    animCount('s3',4,'+'); animCount('s4',5,'');
+    statsIO.disconnect();
+  }
+},{threshold:.5});
+var sb = document.querySelector('.stats');
+if(sb) statsIO.observe(sb);
+
+/* CARD TILT */
+document.querySelectorAll('.sc,.proj,.tc').forEach(function(el){
+  el.addEventListener('mousemove', function(e){
+    var r = el.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width - 0.5;
+    var y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = 'perspective(700px) rotateY('+(x*10)+'deg) rotateX('+(-y*7)+'deg) translateY(-6px) scale(1.02)';
+  });
+  el.addEventListener('mouseleave', function(){ el.style.transform = ''; });
+});
+
+/* TOAST */
+function toast(msg, type){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'show ' + type;
+  setTimeout(function(){ t.className = ''; }, 4500);
+}
+
+/* SEND EMAIL */
+function sendMail(){
+  var name = document.getElementById('fn').value.trim();
+  var email = document.getElementById('fe').value.trim();
+  var service = document.getElementById('fs').value;
+  var budget = document.getElementById('fb').value;
+  var msg = document.getElementById('fm').value.trim();
+  if(!name || !email){ toast('Please fill in your name and email.','err'); return; }
+  if(email.indexOf('@') === -1){ toast('Please enter a valid email.','err'); return; }
+  var btn = document.getElementById('sbtn');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  emailjs.send('service_95hm9m5','template_vq895rr',{
+    from_name: name, from_email: email,
+    service: service || 'Not specified',
+    budget: budget || 'Not specified',
+    message: msg || 'No message'
+  }).then(function(){
+    toast('Message sent! Ricky will reply soon. ✦','ok');
+    document.getElementById('fn').value = '';
+    document.getElementById('fe').value = '';
+    document.getElementById('fs').value = '';
+    document.getElementById('fb').value = '';
+    document.getElementById('fm').value = '';
+    btn.textContent = 'Send Message ✦'; btn.disabled = false;
+  }).catch(function(err){
+    console.error(err);
+    toast('Failed. Email rj7076751589@gmail.com directly.','err');
+    btn.textContent = 'Send Message ✦'; btn.disabled = false;
+  });
+}
+</script>
+</body>
+</html>
